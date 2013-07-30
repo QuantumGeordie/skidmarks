@@ -1,0 +1,11 @@
+/*****************************************************************
+http://www.colorcombos.com/color-schemes/428/ColorCombo428.html
+#74A6BD, #7195A3, #D4E7ED, #EB8540, #B06A3B, #AB988B.
+******************************************************************/
+
+body {background-color: #000000; font-family: helvetica,arial-new,verdana; font-size: 1.4em; color: #D4E7ED; }
+
+a.skid:link    { text-decoration:underline; color: #7195A3;}
+a.skid:visited { text-decoration:underline; color: #7195A3;}
+a.skid:hover   { background-color: #7195A3; color: #000; text-decoration: none; }
+a.skid:active  { text-decoration:none; color: #7195A3; }

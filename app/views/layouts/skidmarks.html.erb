@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MirrorMirror</title>
+  <%= stylesheet_link_tag "skidmarks.css", :media => "all" %>
+  <%= javascript_include_tag "application.js" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="skid--header">
+    <h1>Skidmarks [<%= @skidmarks_gem_version %>]</h1>
+  </div>
+  <%= yield %>
+</body>
+</html>
