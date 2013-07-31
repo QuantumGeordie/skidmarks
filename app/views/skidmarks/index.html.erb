@@ -1,1 +1,27 @@
-INDEX here soon!
+<h2>Scheduled Jobs</h2>
+<p>not real data yet. will add soon.</p>
+<table class='skid'>
+  <thead>
+  	<tr>
+      <th scope='col' class='skid'>name</th>
+      <th scope='col' class='skid'>cron</th>
+      <th scope='col' class='skid'>class</th>
+      <th scope='col' class='skid'>method</th>
+      <th scope='col' class='skid'>args</th>
+      <th scope='col' class='skid'>for each vhost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @jobs.each do |job| %>
+      <tr>
+        <td><%= job[:name] %></td>
+        <td><%= job[:cron] %></td>
+        <td><%= job[:class] %></td>
+        <td><%= job[:method] %></td>
+        <td><%= job[:args].inspect %></td>
+        <td><%= job[:for_each_vhost] %></td>
+      </tr>
+
+    <% end -%>
+  </tbody>
+</table>

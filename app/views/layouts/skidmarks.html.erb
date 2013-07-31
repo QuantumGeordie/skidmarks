@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MirrorMirror</title>
+  <title>Skidmarks</title>
   <%= stylesheet_link_tag "skidmarks.css", :media => "all" %>
   <%= javascript_include_tag "application.js" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="skid--header">
-    <h1>Skidmarks [<%= @skidmarks_gem_version %>]</h1>
+  <div class='skid--content'>
+    <div class="skid--header">
+      <h1>Skidmarks v<%= @skidmarks_gem_version %></h1>
+    </div>
+    <a href="#" class='skid'>link 1</a> | <a href="#" class='skid'>link 2</a>
+    <br>
+    <%= yield %>
   </div>
-  <%= yield %>
 </body>
 </html>

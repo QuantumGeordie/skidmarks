@@ -3,9 +3,19 @@ http://www.colorcombos.com/color-schemes/428/ColorCombo428.html
 #74A6BD, #7195A3, #D4E7ED, #EB8540, #B06A3B, #AB988B.
 ******************************************************************/
 
-body {background-color: #000000; font-family: helvetica,arial-new,verdana; font-size: 1.4em; color: #D4E7ED; }
+body {background-color: #fff; font-family: helvetica,arial-new,verdana; font-size: 1.4em; color: #EB8540; }
 
 a.skid:link    { text-decoration:underline; color: #7195A3;}
 a.skid:visited { text-decoration:underline; color: #7195A3;}
-a.skid:hover   { background-color: #7195A3; color: #000; text-decoration: none; }
+a.skid:hover   { background-color: #fff; color: #B06A3B; text-decoration: none; }
 a.skid:active  { text-decoration:none; color: #7195A3; }
+
+h1 { font-size: 2em; color: #B06A3B; }
+p  { font-size: 1.2em; color: #AB988; }
+
+.skid--content { width: 960px; margin-left: auto; margin-right: auto;}
+
+.skid { font-family: "Lucida Console", Courier, monospace; font-size: 0.75em; background:#fff; border-collapse:collapse; text-align:left; margin:20px;}
+.skid th{color: #7195A3; border-bottom:2px solid #7195A3; padding:10px 8px; font-size: 1.0em;}
+.skid td{color:#74A6BD;padding:9px 24px 9px 8px; border-bottom: 1px solid #D4E7ED; }
+.skid tbody tr:hover td{color:#EB8540;}
