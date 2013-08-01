@@ -1,0 +1,7 @@
+restrict horizontal scrolling
+collapse jobs that run every 2,3,4 minutes
+adjust height of timeline
+make jobs to display selectable
+make scheduler file configurable
+
+(merge with steven's data)
