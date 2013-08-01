@@ -1,11 +1,85 @@
+<!-- {"dateTimeFormat":"iso8601","events":[{"title":"00:00 bulk_geocoder","textColor":"#000000","classname":"default","color":"#7FFFD4","start":"2013-08-01T00:00:00-07:00","description":["bulk_geocoder"],"durationEvent":true}, ...]}
+
+"events" => [
+        [   0] {
+                "textColor" => "#000000",
+                    "title" => "00:00 bulk_geocoder",
+                "classname" => "default",
+                    "color" => "#7FFFD4",
+                    "start" => "2013-08-01T00:00:00-07:00",
+            "durationEvent" => true,
+              "description" => [
+                [0] "bulk_geocoder"
+            ]
+        },
+
+-->
+
+<script type="text/javascript">
+
+  var tl;
+  function onLoad() {
+    var eventSource = new Timeline.DefaultEventSource();
+    var zones = [
+        {   start:    "<%= @start_time %>",
+            end:      "<%= @end_time %>",
+            magnify:  10,
+            unit:     Timeline.DateTime.MINUTE,
+            multiple: 10
+        }
+    ];
+    var bandInfos = [
+        Timeline.createBandInfo({
+            eventSource:    eventSource,
+            timeZone:       -4,
+            date:           "<%= @start_time %>",
+            width:          "80%",
+            intervalUnit:   Timeline.DateTime.HOUR,
+            intervalPixels: 600
+        }),
+        Timeline.createBandInfo({
+            eventSource:    eventSource,
+            timeZone:       -4,
+            date:           "<%= @start_time %>",
+            width:          "20%",
+            intervalUnit:   Timeline.DateTime.DAY,
+            intervalPixels: 600,
+            layout:         'overview'
+        })
+    ];
+
+    bandInfos[1].syncWith = 0;
+    bandInfos[1].highlight = true;
+
+    tl = Timeline.create(document.getElementById("my_timeline"), bandInfos);
+    eventSource.loadJSON(<%= "#{@jobs}".html_safe %>);
+
+  }
+
+  var resizeTimerID = null;
+  function onResize() {
+      if (resizeTimerID == null) {
+          resizeTimerID = window.setTimeout(function() {
+              resizeTimerID = null;
+              tl.layout();
+          }, 500);
+      }
+  }
+
+</script>
+
+<% jobs_hash = JSON.parse(@jobs) %>
+
 <h2>Scheduled Jobs</h2>
 <p>not real data yet. will add soon.</p>
-<div id='skid--timeline' class='skid--timeline'>timeline</div>
+<div id='my_timeline' class='skid--timeline'>
+</div>
 <table class='skid'>
   <thead>
   	<tr>
       <th scope='col' class='skid'>name</th>
       <th scope='col' class='skid'>cron</th>
+      <th scope='col' class='skid'>start</th>
       <th scope='col' class='skid'>class</th>
       <th scope='col' class='skid'>method</th>
       <th scope='col' class='skid'>args</th>
@@ -13,15 +87,18 @@
     </tr>
   </thead>
   <tbody>
-    <% @jobs.each do |job| %>
+    <% jobs_hash['events'].each.each do |job| %>
       <tr>
-        <td><%= job[:name] %></td>
-        <td><%= job[:cron] %></td>
-        <td><%= job[:class] %></td>
-        <td><%= job[:method] %></td>
-        <td><%= job[:args].inspect %></td>
-        <td><%= job[:for_each_vhost] %></td>
+        <td><%= job[:description] %></td>
+        <td> -- </td>
+        <td><%= job[:start] %></td>
+        <td> -- </td>
+        <td> -- </td>
+        <td> -- </td>
+        <td> -- </td>
       </tr>
     <% end -%>
   </tbody>
 </table>
+
+<%= jobs_hash.inspect %>

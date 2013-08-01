@@ -16,7 +16,7 @@ class SkidmarksController < ApplicationController
 
     @jobs = CronParser::Crontab.new(:earliest_time => @start_time, :latest_time => @end_time, :event_data => EVENT_DATA, :input => generate_crontab_data).to_json
     puts @jobs
-    @jobs
+    @jobs.html_safe
   end
 
 
