@@ -19,6 +19,8 @@
 
   var tl;
   function onLoad() {
+    SimileAjax.History.enabled = false;
+
     var eventSource = new Timeline.DefaultEventSource();
     var zones = [
         {   start:    "<%= @start_time %>",
@@ -52,7 +54,7 @@
     bandInfos[1].highlight = true;
 
     tl = Timeline.create(document.getElementById("my_timeline"), bandInfos);
-    eventSource.loadJSON(<%= "#{@jobs}".html_safe %>);
+    eventSource.loadJSON(<%= "#{@jobs}".html_safe %>, document.location.href);
 
   }
 
@@ -67,6 +69,7 @@
   }
 
 </script>
+
 
 <% jobs_hash = JSON.parse(@jobs) %>
 
@@ -87,11 +90,11 @@
     </tr>
   </thead>
   <tbody>
-    <% jobs_hash['events'].each.each do |job| %>
+    <% jobs_hash['events'].each do |job| %>
       <tr>
-        <td><%= job[:description] %></td>
+        <td><%= job['description'] %></td>
         <td> -- </td>
-        <td><%= job[:start] %></td>
+        <td><%= job['start'] %></td>
         <td> -- </td>
         <td> -- </td>
         <td> -- </td>
@@ -100,5 +103,3 @@
     <% end -%>
   </tbody>
 </table>
-
-<%= jobs_hash.inspect %>
