@@ -3,5 +3,6 @@ collapse jobs that run every 2,3,4 minutes
 adjust height of timeline
 make jobs to display selectable
 make scheduler file configurable
+make every job have its own color
 
 (merge with steven's data)
