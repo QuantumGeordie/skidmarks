@@ -85,8 +85,10 @@
     end
     if (event['description'].class == String && event['description'].match(/Every minute:/))
       jobs[event['description']][:events] = 24 * 60
+      jobs[event['description']][:name] = event['description']
     else
       jobs[event['description']][:events] += 1
+      jobs[event['description']][:name] = event['description'].join(' ')
     end
   end
 
@@ -111,11 +113,10 @@
       <tr>
         <td><%= check_box_tag(v[:track], v[:track], true, :onclick=>"hideShowTrack(#{v[:track]});")%></td>
         <td><p style="color:<%= v[:color] %>"><%= k %></p></td>
-        <td><div class='skid--cron'><%= v[:cron] %></div></td>
+        <td><div class='skid--cron'><a class='skid--link' href="#" onclick="return alert(CronWTF.parse(' <%= "#{v[:cron].html_safe} #{v[:name].html_safe}".html_safe %> ' )[0])"><%= v[:cron] %></a></div></td>
         <td><%= v[:events] %></td>
         <td><%= v[:track] %></td>
       </tr>
     <% end -%>
   </tbody>
 </table>
-<!-- <%= @jobs %> -->
