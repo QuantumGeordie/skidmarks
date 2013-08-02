@@ -59,10 +59,19 @@
 </script>
 
 
-<% jobs_hash = JSON.parse(@jobs) %>
+<%
+  events_hash = JSON.parse(@jobs)
+
+  jobs = {}
+
+  events_hash['events'].each do |event|
+    cron = event['cron'] ? event['cron'] : '--'
+    jobs[event['description']] = {:cron => cron, :events => 0} unless jobs.include?(event['description'])
+    jobs[event['description']][:events] += 1
+  end
+%>
 
 <h2>Scheduled Jobs</h2>
-<p>not real data yet. will add soon.</p>
 <div id='my_timeline' class='skid--timeline'>
 </div>
 <table class='skid'>
@@ -70,23 +79,15 @@
   	<tr>
       <th scope='col' class='skid'>name</th>
       <th scope='col' class='skid'>cron</th>
-      <th scope='col' class='skid'>start</th>
-      <th scope='col' class='skid'>class</th>
-      <th scope='col' class='skid'>method</th>
-      <th scope='col' class='skid'>args</th>
-      <th scope='col' class='skid'>for each vhost</th>
+      <th scope='col' class='skid'>events</th>
     </tr>
   </thead>
   <tbody>
-    <% jobs_hash['events'].each do |job| %>
+    <% jobs.each do |k, v| %>
       <tr>
-        <td><%= job['description'] %></td>
-        <td> -- </td>
-        <td><%= job['start'] %></td>
-        <td> -- </td>
-        <td> -- </td>
-        <td> -- </td>
-        <td> -- </td>
+        <td><%= k %></td>
+        <td><%= v[:cron] %></td>
+        <td><%= v[:events] %></td>
       </tr>
     <% end -%>
   </tbody>
