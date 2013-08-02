@@ -1,87 +1,11 @@
 module CronParser
-  class CronJob
-    attr_reader :events, :command, :times
-
-    def initialize options
-      @times      = options[:times]
-      @command    = options[:command]
-      @event_data = options[:event_data]
-      merge_event_data options
-    end
-
-    def merge_event_data options
-      @events = []
-
-      if @event_data.keys.include? options[:times].size
-        # Rollup */1 and */5 jobs into a single job for display purposes.
-        seed = @event_data[options[:times].size]
-        data = {
-            "start"       => options[:times][0].iso8601,
-            "end"         => options[:times][-1].iso8601,
-            "title"       => "#{seed['title_prefix']}#{@command}",
-            "description" => "#{seed['title_prefix']}#{@command}",
-            "cron" => options[:cron_string]
-        }
-        @events = [@event_data[:default].merge(seed).merge(data)]
-      else
-        options[:times].each do |time|
-          data = {
-              "start"       => time.iso8601,
-              "title"       => "%02d:%02d %s" % [time.hour, time.min, @command],
-              "description" => @command,
-              "cron" => options[:cron_string]
-          }
-          @events << @event_data[:default].merge(data)
-        end
-      end
-    end
-  end
-
-  class CronParser
-    # Syntax respected:
-    # N      Integer
-    # N,N,N  Set
-    # N-N    Range inclusive
-    # *      All
-    # */N    Every N
-    def self.expand field, interval
-      case
-        when interval == interval[/\d+/]
-          [interval.to_i]
-        when interval[/,/]
-          interval.split(",").map(&:to_i)
-        when interval[/-/]
-          start, stop = interval.split("-").map(&:to_i)
-          start.step(stop).to_a
-        else
-          expand_recurring field, interval
-      end
-    end
-
-    def self.expand_recurring field, interval
-      if interval == '*'
-        interval = 1
-      else
-        interval = interval[/\d+/].to_i
-      end
-      case field
-        when :mi then 0.step(59, interval)
-        when :ho then 0.step(23, interval)
-        when :da then 1.step(31, interval)
-        when :mo then 1.step(12, interval)
-        when :dw then 0.step(6,  interval)
-      end.to_a
-    end
-  end
-
-
   class Crontab
     attr_reader :jobs
 
     def initialize(options={})
       @earliest_time = options[:earliest_time]
       @latest_time   = options[:latest_time]
-      @input         = options[:input] || DEFAULT_FILE
+      @input         = options[:input]
 
       prepare_event_data options[:event_data]
 
@@ -188,7 +112,103 @@ module CronParser
           events << event
         end
       end
-      {"dateTimeFormat" => "iso8601", "events" => events.sort_by {|x| x['title']}}.to_json
+      {"dateTimeFormat" => "iso8601", "events" => events.sort_by {|x| x['caption']}}.to_json
+    end
+  end
+
+  private
+
+  class CronJob
+    attr_reader :events, :command, :times
+
+    def initialize options
+      @times      = options[:times]
+      @command    = options[:command]
+      @event_data = options[:event_data]
+      merge_event_data options
+    end
+
+    def merge_event_data options
+      @events = []
+
+      if @event_data.keys.include? options[:times].size
+        # Rollup */1 and */5 jobs into a single job for display purposes.
+        seed = @event_data[options[:times].size]
+        data = {
+            "start"       => options[:times][0].iso8601,
+            "end"         => options[:times][-1].iso8601,
+            "caption"       => "#{seed['title_prefix']}#{@command}",
+            "description" => "#{seed['title_prefix']}#{@command}",
+            "cron" => options[:cron_string]
+        }
+        @events = [@event_data[:default].merge(seed).merge(data)]
+      else
+        options[:times].each do |time|
+          data = {
+              "start"       => time.iso8601,
+              "end"       => (time + 30.seconds).iso8601,
+              "caption"       => "%02d:%02d %s" % [time.hour, time.min, @command],
+              "description" => @command,
+              "color"       => get_color,
+              "cron" => options[:cron_string]
+          }
+          @events << @event_data[:default].merge(data)
+        end
+      end
+    end
+
+  private
+
+    COLORS = %w(#FF0000 #FFFFFF #00FFFF #C0C0C0 #0000FF #808080 #0000A0 #000000 #ADD8E6 #FFA500 #800080 #A52A2A #FFFF00 #800000 #00FF00 #008000 #FF00FF #808000)
+    @@color_counter = 0
+    @@color_map = {}
+
+    def get_color
+      if @@color_map[@command].nil?
+       c = COLORS[(@@color_counter.divmod(COLORS.size))[1]]
+       @@color_map[@command] = c
+       @@color_counter += 1
+      else
+       c = @@color_map[@command]
+      end
+      c
+    end
+  end
+
+  class CronParser
+    # Syntax respected:
+    # N      Integer
+    # N,N,N  Set
+    # N-N    Range inclusive
+    # *      All
+    # */N    Every N
+    def self.expand field, interval
+      case
+        when interval == interval[/\d+/]
+          [interval.to_i]
+        when interval[/,/]
+          interval.split(",").map(&:to_i)
+        when interval[/-/]
+          start, stop = interval.split("-").map(&:to_i)
+          start.step(stop).to_a
+        else
+          expand_recurring field, interval
+      end
+    end
+
+    def self.expand_recurring field, interval
+      if interval == '*'
+        interval = 1
+      else
+        interval = interval[/\d+/].to_i
+      end
+      case field
+        when :mi then 0.step(59, interval)
+        when :ho then 0.step(23, interval)
+        when :da then 1.step(31, interval)
+        when :mo then 1.step(12, interval)
+        when :dw then 0.step(6,  interval)
+      end.to_a
     end
   end
 end
