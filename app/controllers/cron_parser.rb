@@ -121,7 +121,7 @@ module CronParser
   class CronJob
     attr_reader :events, :command, :times
 
-    DEFAULT_DURATION = 1.minute
+    DEFAULT_DURATION = 40.seconds
 
     def initialize options
       @times      = options[:times]
@@ -148,7 +148,6 @@ module CronParser
         @@additional_event_data[@command]["count"] = 1000000000000
         @@reserved_slots += 1
         @@additional_event_data[@command]["track_number"] = @@reserved_slots
-        puts @@reserved_slots
       else
         options[:times].each do |time|
           data = {
@@ -172,6 +171,13 @@ module CronParser
         @@additional_event_data[@command]["track_number"] = calculate_track_number if @@additional_event_data[@command]["track_number"].nil?
         @@additional_event_data[@command]["track_number"]
       end
+    end
+
+    def self.reset_state
+      @@jobs = 0
+      @@additional_event_data = {}
+      @@reserved_slots = 0
+      @@last_track_number = nil
     end
 
   private

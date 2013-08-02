@@ -12,6 +12,7 @@ class SkidmarksController < ApplicationController
 
 
   def index
+    CronParser::CronJob.reset_state
     @start_time = "#{Time.now.strftime('%F')} 00:00"
     @end_time = "#{Time.now.strftime('%F')} 23:59"
 
