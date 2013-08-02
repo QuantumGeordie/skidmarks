@@ -16,12 +16,29 @@ class SkidmarksController < ApplicationController
     @end_time = "2013-07-23 23:59"
 
     @jobs = CronParser::Crontab.new(:earliest_time => @start_time, :latest_time => @end_time, :event_data => EVENT_DATA, :input => generate_crontab_data).to_json
-    puts @jobs
     @jobs.html_safe
   end
 
+  def plot
+    #data = params['data']
+    #data = "
+    #    'events': [
+    #      {'name1','start_time','end_time'},
+    #      {'name1', 'start_time', 'end_time' },
+    #      {'name2', 'start_time', 'end_time' }
+    #    ]
+    #".to_json
+    #data = JSON.parse(data)
+    #puts data
+    #@jobs =
+    #@jobs.html_safe
+  end
 
   private
+
+  def parse_data(data)
+
+  end
 
   def generate_crontab_data
     config = YAML::load_file(Skidmarks.scheduler_file_location)

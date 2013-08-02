@@ -171,8 +171,6 @@ module CronParser
       sorted_by_count.find_index([@command, @@additional_event_data[@command]]) + 1
     end
 
-  private
-
     COLORS = %w(#FF0000 #FFFFFF #00FFFF #C0C0C0 #0000FF #808080 #0000A0 #000000 #ADD8E6 #FFA500 #800080 #A52A2A #FFFF00 #800000 #00FF00 #008000 #FF00FF #808000)
     @@jobs = 0
     @@additional_event_data = {}
