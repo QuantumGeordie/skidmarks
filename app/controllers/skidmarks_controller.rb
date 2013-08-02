@@ -1,5 +1,6 @@
 class SkidmarksController < ApplicationController
   require 'time'
+  # include Skidmarks
 
   before_filter :get_gem_version
 
@@ -23,7 +24,7 @@ class SkidmarksController < ApplicationController
   private
 
   def generate_crontab_data
-    config = YAML::load_file(Rails.root + 'config/scheduler.yml')
+    config = YAML::load_file(Skidmarks.scheduler_file_location)
     s = ''
     config.keys.each do |key|
       s += (config[key]['cron_schedule'] + " " + key + "\n")
