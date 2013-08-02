@@ -105,7 +105,8 @@
       <th scope='col' class='skid'>name</th>
       <th scope='col' class='skid'>cron</th>
       <th scope='col' class='skid'>events</th>
-      <th scope='col' class='skid'>track</th>
+      <!-- can put the track number back for debugging purposes if you want -->
+      <!-- <th scope='col' class='skid'>track</th> -->
     </tr>
   </thead>
   <tbody>
@@ -113,9 +114,10 @@
       <tr>
         <td><%= check_box_tag(v[:track], v[:track], true, :onclick=>"hideShowTrack(#{v[:track]});")%></td>
         <td><p style="color:<%= v[:color] %>"><%= k %></p></td>
-        <td><div class='skid--cron'><a class='skid--link' href="#" onclick="return alert(CronWTF.parse(' <%= "#{v[:cron].html_safe} #{v[:name].html_safe}".html_safe %> ' )[0])"><%= v[:cron] %></a></div></td>
+        <td><div class='skid--cron'><a class='skid--cron' href="#" onclick="return alert(CronWTF.parse(' <%= "#{v[:cron].html_safe} #{v[:name].html_safe}".html_safe %> ' )[0])"><%= v[:cron] %></a></div></td>
         <td><%= v[:events] %></td>
-        <td><%= v[:track] %></td>
+        <!-- can put the track number back for debugging purposes if you want -->
+        <!-- <td><%= v[:track] %></td> -->
       </tr>
     <% end -%>
   </tbody>
