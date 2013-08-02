@@ -109,7 +109,7 @@ module CronParser
       events = []
       @jobs.each do |job|
         job.events.each do |event|
-          events << event
+          events << (event.merge({"trackNum" => job.track_number}))
         end
       end
       {"dateTimeFormat" => "iso8601", "events" => events.sort_by {|x| x['caption']}}.to_json
@@ -139,39 +139,55 @@ module CronParser
             "end"         => options[:times][-1].iso8601,
             "caption"       => "#{seed['title_prefix']}#{@command}",
             "description" => "#{seed['title_prefix']}#{@command}",
-            "cron" => options[:cron_string]
+            "cron" => options[:cron_string],
         }
         @events = [@event_data[:default].merge(seed).merge(data)]
+        @@additional_event_data[@command] = {}
+        @@additional_event_data[@command]["count"] = 1000000000000
       else
         options[:times].each do |time|
           data = {
               "start"       => time.iso8601,
-              "end"       => (time + 30.seconds).iso8601,
-              "caption"       => "%02d:%02d %s" % [time.hour, time.min, @command],
+              "end"         => (time + 30.seconds).iso8601,
+              "caption"     => "%02d:%02d %s" % [time.hour, time.min, @command],
               "description" => @command,
-              "color"       => get_color,
-              "cron" => options[:cron_string]
+              "cron"        => options[:cron_string]
           }
-          @events << @event_data[:default].merge(data)
+          fill_additional_event_data
+          @events << @event_data[:default].merge(data).merge(@@additional_event_data[@command])
         end
       end
+    end
+
+    def track_number
+      @@additional_event_data[@command]["track_number"] = calculate_track_number if @@additional_event_data[@command]["track_number"].nil?
+      @@additional_event_data[@command]["track_number"]
+    end
+
+  private
+
+    def calculate_track_number
+      sorted_by_count = @@additional_event_data.sort_by{ |k, _| @@additional_event_data[k]["count"] }.reverse
+      sorted_by_count.find_index([@command, @@additional_event_data[@command]]) + 1
     end
 
   private
 
     COLORS = %w(#FF0000 #FFFFFF #00FFFF #C0C0C0 #0000FF #808080 #0000A0 #000000 #ADD8E6 #FFA500 #800080 #A52A2A #FFFF00 #800000 #00FF00 #008000 #FF00FF #808000)
-    @@color_counter = 0
-    @@color_map = {}
+    @@jobs = 0
+    @@additional_event_data = {}
 
-    def get_color
-      if @@color_map[@command].nil?
-       c = COLORS[(@@color_counter.divmod(COLORS.size))[1]]
-       @@color_map[@command] = c
-       @@color_counter += 1
+    def fill_additional_event_data
+      data = @@additional_event_data[@command]
+      if (data.nil?)
+        data = {}
+        data["color"] = COLORS[(@@jobs.divmod(COLORS.size))[1]]
+        data["count"] = 1
+        @@additional_event_data[@command] = data
+        @@jobs += 1
       else
-       c = @@color_map[@command]
+        data["count"] = data["count"] + 1
       end
-      c
     end
   end
 
