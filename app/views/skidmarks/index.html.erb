@@ -16,22 +16,25 @@
     var theme = Timeline.ClassicTheme.create(); // create the theme
         theme.timeline_start = new Date(Date.parse("<%= @start_time %>"));
         theme.timeline_stop  = new Date(Date.parse("<%= @end_time %>"));
+        theme.event.track.height = 10;
+        theme.event.tape.height = 10;
+        theme.event.track.gap = 0;
 
     var bandInfos = [
         Timeline.createBandInfo({
             eventSource:    eventSource,
             timeZone:       0,
             date:           "<%= @start_time %>",
-            width:          "80%",
+            width:          "90%",
             theme:          theme, // Apply the theme
             intervalUnit:   Timeline.DateTime.HOUR,
-            intervalPixels: 600
+            intervalPixels: 600,
         }),
         Timeline.createBandInfo({
             eventSource:    eventSource,
             timeZone:       0,
             date:           "<%= @start_time %>",
-            width:          "20%",
+            width:          "10%",
             intervalUnit:   Timeline.DateTime.DAY,
             intervalPixels: 600,
             layout:         'overview'
