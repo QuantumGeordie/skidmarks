@@ -4,5 +4,6 @@ adjust height of timeline
 make jobs to display selectable
 make scheduler file configurable
 make every job have its own color
+make very job be displayed in its own 'line'
 
 (merge with steven's data)
