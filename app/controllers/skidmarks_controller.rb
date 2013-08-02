@@ -12,8 +12,8 @@ class SkidmarksController < ApplicationController
 
 
   def index
-    @start_time = "2013-07-23 00:00"
-    @end_time = "2013-07-23 23:59"
+    @start_time = "#{Time.now.strftime('%F')} 00:00"
+    @end_time = "#{Time.now.strftime('%F')} 23:59"
 
     @jobs = CronParser::Crontab.new(:earliest_time => @start_time, :latest_time => @end_time, :event_data => EVENT_DATA, :input => generate_crontab_data).to_json
     @jobs.html_safe

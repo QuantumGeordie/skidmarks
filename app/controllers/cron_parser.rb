@@ -107,7 +107,7 @@ module CronParser
 
     def to_json(*a)
       events = []
-      @jobs.each do |job|
+      @jobs.sort_by{|j| j.events.size}.reverse.each do |job|
         job.events.each do |event|
           events << (event.merge({"trackNum" => job.track_number}))
         end
@@ -120,6 +120,8 @@ module CronParser
 
   class CronJob
     attr_reader :events, :command, :times
+
+    DEFAULT_DURATION = 1.minute
 
     def initialize options
       @times      = options[:times]
@@ -144,11 +146,14 @@ module CronParser
         @events = [@event_data[:default].merge(seed).merge(data)]
         @@additional_event_data[@command] = {}
         @@additional_event_data[@command]["count"] = 1000000000000
+        @@reserved_slots += 1
+        @@additional_event_data[@command]["track_number"] = @@reserved_slots
+        puts @@reserved_slots
       else
         options[:times].each do |time|
           data = {
               "start"       => time.iso8601,
-              "end"         => (time + 30.seconds).iso8601,
+              "end"         => (time + DEFAULT_DURATION).iso8601,
               "caption"     => "%02d:%02d %s" % [time.hour, time.min, @command],
               "description" => @command,
               "cron"        => options[:cron_string]
@@ -160,8 +165,13 @@ module CronParser
     end
 
     def track_number
-      @@additional_event_data[@command]["track_number"] = calculate_track_number if @@additional_event_data[@command]["track_number"].nil?
-      @@additional_event_data[@command]["track_number"]
+      return @@additional_event_data[@command]["track_number"] unless @@additional_event_data[@command]["track_number"].nil?
+      if @events.size < 5
+        @@additional_event_data[@command]["track_number"] = find_last_track_number
+      else
+        @@additional_event_data[@command]["track_number"] = calculate_track_number if @@additional_event_data[@command]["track_number"].nil?
+        @@additional_event_data[@command]["track_number"]
+      end
     end
 
   private
@@ -171,9 +181,18 @@ module CronParser
       sorted_by_count.find_index([@command, @@additional_event_data[@command]]) + 1
     end
 
+    def find_last_track_number
+      if @@last_track_number.nil?
+       @@last_track_number = @@additional_event_data.values.sort_by{|v| v["track_number"].nil?? -1 : v["track_number"]}[-1]['track_number'] + @@reserved_slots
+      end
+      @@last_track_number
+    end
+
     COLORS = %w(#FF0000 #FFFFFF #00FFFF #C0C0C0 #0000FF #808080 #0000A0 #000000 #ADD8E6 #FFA500 #800080 #A52A2A #FFFF00 #800000 #00FF00 #008000 #FF00FF #808000)
     @@jobs = 0
     @@additional_event_data = {}
+    @@reserved_slots = 0
+    @@last_track_number = nil
 
     def fill_additional_event_data
       data = @@additional_event_data[@command]
