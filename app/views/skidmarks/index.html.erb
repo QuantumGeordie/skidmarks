@@ -23,7 +23,7 @@
     var bandInfos = [
         Timeline.createBandInfo({
             eventSource:    eventSource,
-            timeZone:       0,
+            timeZone:       -7,
             date:           "<%= @start_time %>",
             width:          "90%",
             theme:          theme, // Apply the theme
@@ -32,7 +32,7 @@
         }),
         Timeline.createBandInfo({
             eventSource:    eventSource,
-            timeZone:       0,
+            timeZone:       -7,
             date:           "<%= @start_time %>",
             width:          "10%",
             intervalUnit:   Timeline.DateTime.DAY,
