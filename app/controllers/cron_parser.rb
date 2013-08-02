@@ -19,14 +19,18 @@ module CronParser
             "start"       => options[:times][0].iso8601,
             "end"         => options[:times][-1].iso8601,
             "title"       => "#{seed['title_prefix']}#{@command}",
-            "description" => "#{seed['title_prefix']}#{@command}"}
+            "description" => "#{seed['title_prefix']}#{@command}",
+            "cron" => options[:cron_string]
+        }
         @events = [@event_data[:default].merge(seed).merge(data)]
       else
         options[:times].each do |time|
           data = {
               "start"       => time.iso8601,
               "title"       => "%02d:%02d %s" % [time.hour, time.min, @command],
-              "description" => @command}
+              "description" => @command,
+              "cron" => options[:cron_string]
+          }
           @events << @event_data[:default].merge(data)
         end
       end
@@ -136,7 +140,7 @@ module CronParser
         elements[k] = CronParser.expand(k, v)
       end
 
-      CronJob.new(:command => co, :times => fan_out(elements), :event_data => @event_data)
+      CronJob.new(:command => co, :times => fan_out(elements), :event_data => @event_data, :cron_string => [mi, ho, da, mo, dw].join(" "))
     end
 
     # Accept a blueprint of a job as an exploded list of time elements,
