@@ -1,24 +1,26 @@
 # Skidmarks
 
-TODO: Write a gem description
-
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'skidmarks'
+    gem 'skidmarks', :git => 'git://github.com/quantumGeordie/skidmarks.git'
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
+someday you will be able to install it yourself like this:
 
     $ gem install skidmarks
 
 ## Usage
 
-TODO: Write usage instructions here
+with gem in project, initialize the scheduler file location like:
+
+    Skidmarks.scheduler_file_location = '/path/to/your/file.yml'
+
+then visit `/skidmarks` in your application.
 
 ## Contributing
 
