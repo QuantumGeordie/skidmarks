@@ -189,12 +189,12 @@ module CronParser
 
     def find_last_track_number
       if @@last_track_number.nil?
-       @@last_track_number = @@additional_event_data.values.sort_by{|v| v["track_number"].nil?? -1 : v["track_number"]}[-1]['track_number'] + @@reserved_slots
+        @@last_track_number = @@additional_event_data.values.sort_by{|v| v["track_number"].nil?? -1 : v["track_number"]}[-1]['track_number'] + @@reserved_slots
       end
       @@last_track_number
     end
 
-    COLORS = %w(#FF0000 #FFFFFF #00FFFF #C0C0C0 #0000FF #808080 #0000A0 #000000 #ADD8E6 #FFA500 #800080 #A52A2A #FFFF00 #800000 #00FF00 #008000 #FF00FF #808000)
+    COLORS = %w(#FF0000 #00FFFF #C0C0C0 #0000FF #808080 #0000A0 #000000 #ADD8E6 #FFA500 #800080 #A52A2A #FFFF00 #800000 #00FF00 #008000 #FF00FF #808000)
     @@jobs = 0
     @@additional_event_data = {}
     @@reserved_slots = 0

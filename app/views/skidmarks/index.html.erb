@@ -78,8 +78,9 @@
   events_hash['events'].each do |event|
     cron = event['cron'] ? event['cron'] : '--'
     track_number = event['trackNum']
+    color = event['color']
     unless jobs.include?(event['description'])
-      jobs[event['description']] = {:cron => cron, :events => 0, :track => track_number}
+      jobs[event['description']] = {:cron => cron, :events => 0, :track => track_number, :color => color}
       track_number_counter += 1
     end
     jobs[event['description']][:events] += 1
@@ -105,7 +106,7 @@
     <% jobs.each do |k, v| %>
       <tr>
         <td><%= check_box_tag(v[:track], v[:track], true, :onclick=>"hideShowTrack(#{v[:track]});")%></td>
-        <td><%= k %></td>
+        <td><p style="color:<%= v[:color] %>"><%= k %></p></td>
         <td><div class='skid--cron'><%= v[:cron] %></div></td>
         <td><%= v[:events] %></td>
         <td><%= v[:track] %></td>
