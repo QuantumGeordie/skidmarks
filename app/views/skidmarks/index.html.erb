@@ -1,22 +1,4 @@
-<!-- {"dateTimeFormat":"iso8601","events":[{"title":"00:00 bulk_geocoder","textColor":"#000000","classname":"default","color":"#7FFFD4","start":"2013-08-01T00:00:00-07:00","description":["bulk_geocoder"],"durationEvent":true}, ...]}
-
-"events" => [
-        [   0] {
-                "textColor" => "#000000",
-                    "title" => "00:00 bulk_geocoder",
-                "classname" => "default",
-                    "color" => "#7FFFD4",
-                    "start" => "2013-08-01T00:00:00-07:00",
-            "durationEvent" => true,
-              "description" => [
-                [0] "bulk_geocoder"
-            ]
-        },
-
--->
-
 <script type="text/javascript">
-
   var tl;
   function onLoad() {
     SimileAjax.History.enabled = false;
@@ -30,18 +12,24 @@
             multiple: 10
         }
     ];
+
+    var theme = Timeline.ClassicTheme.create(); // create the theme
+        theme.timeline_start = new Date(Date.parse("<%= @start_time %>"));
+        theme.timeline_stop  = new Date(Date.parse("<%= @end_time %>"));
+
     var bandInfos = [
         Timeline.createBandInfo({
             eventSource:    eventSource,
-            timeZone:       -4,
+            timeZone:       0,
             date:           "<%= @start_time %>",
             width:          "80%",
+            theme:          theme, // Apply the theme
             intervalUnit:   Timeline.DateTime.HOUR,
             intervalPixels: 600
         }),
         Timeline.createBandInfo({
             eventSource:    eventSource,
-            timeZone:       -4,
+            timeZone:       0,
             date:           "<%= @start_time %>",
             width:          "20%",
             intervalUnit:   Timeline.DateTime.DAY,
