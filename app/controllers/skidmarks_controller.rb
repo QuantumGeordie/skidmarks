@@ -4,7 +4,7 @@ class SkidmarksController < ApplicationController
   before_filter :get_gem_version
 
   EVENT_DATA = {
-      :default => { "color" => "#7FFFD4", "textColor" => "#000000", "classname" => "default", "durationEvent" => false},
+      :default => { "textColor" => "#000000", "classname" => "default", "durationEvent" => true},
       :every_minute => { "title_prefix" => "Every minute: ", "color" => "#f00", "durationEvent" => true},
       :every_five_minutes => { "title_prefix" => "Every five minutes: ", "color" => "#fa0", "durationEvent" => true}
   }
