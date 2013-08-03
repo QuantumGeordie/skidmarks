@@ -42,7 +42,10 @@ class SkidmarksController < ApplicationController
   end
 
   def generate_crontab_data
-    config = YAML::load_file(Skidmarks.scheduler_file_location)
+    raw_str = File.read(Skidmarks.scheduler_file_location)
+    yaml_str = ERB.new(raw_str).result
+    config = YAML.load(yaml_str)
+
     s = ''
     config.keys.each do |key|
       s += (config[key]['cron_schedule'] + " " + key + "\n")
