@@ -6,11 +6,11 @@ require 'skidmarks/version'
 Gem::Specification.new do |spec|
   spec.name          = "skidmarks"
   spec.version       = Skidmarks::VERSION
-  spec.authors       = ["geordie"]
+  spec.authors       = ["geordie", "johannes"]
   spec.email         = ["george.speake@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Skidmarks shows you where you did your duty}
+  spec.summary       = %q{use Skidmarks to parse and display a yaml shceduler file to make sure your jobs are scheduled when you intended}
+  spec.homepage      = "https://github.com/QuantumGeordie/skidmarks"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
