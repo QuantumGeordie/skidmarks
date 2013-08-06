@@ -1,5 +1,11 @@
 # Skidmarks
 
+backup job schedule visualization tool
+
+## Travis-ci
+
+[![Build Status](https://travis-ci.org/QuantumGeordie/skidmarks.png)](https://travis-ci.org/QuantumGeordie/skidmarks)
+
 ## Installation
 
 Add this line to your application's Gemfile:
