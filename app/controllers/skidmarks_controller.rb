@@ -1,6 +1,5 @@
 class SkidmarksController < ApplicationController
   require 'time'
-  # include Skidmarks
 
   before_filter :get_gem_version
 
@@ -10,7 +9,6 @@ class SkidmarksController < ApplicationController
       :every_five_minutes => { "title_prefix" => "Every five minutes: ", "color" => "#fa0", "durationEvent" => true}
   }
 
-
   def index
     CronParser::CronJob.reset_state
     @start_time = "#{Time.now.strftime('%F')} 00:00"
@@ -18,21 +16,6 @@ class SkidmarksController < ApplicationController
 
     @jobs = CronParser::Crontab.new(:earliest_time => @start_time, :latest_time => @end_time, :event_data => EVENT_DATA, :input => generate_crontab_data).to_json
     @jobs.html_safe
-  end
-
-  def plot
-    #data = params['data']
-    #data = "
-    #    'events': [
-    #      {'name1','start_time','end_time'},
-    #      {'name1', 'start_time', 'end_time' },
-    #      {'name2', 'start_time', 'end_time' }
-    #    ]
-    #".to_json
-    #data = JSON.parse(data)
-    #puts data
-    #@jobs =
-    #@jobs.html_safe
   end
 
   private
