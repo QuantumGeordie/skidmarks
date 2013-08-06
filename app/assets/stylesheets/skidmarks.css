@@ -5,7 +5,7 @@ http://www.colorcombos.com/color-schemes/428/ColorCombo428.html
 
 body {background-color: #fff; font-family: helvetica,arial-new,verdana; font-size: 1.4em; color: #EB8540; }
 
-a.skid:link    { text-decoration:underline; color: #7195A3;}
+a.skid:link    { font-family: helvetica,arial-new,verdana; text-decoration:underline; color: #7195A3;}
 a.skid:visited { text-decoration:underline; color: #7195A3;}
 a.skid:hover   { background-color: #fff; color: #B06A3B; text-decoration: none; }
 a.skid:active  { text-decoration:none; color: #7195A3; }
@@ -15,18 +15,20 @@ a.skid--cron:visited { text-decoration:none; color: #7195A3;}
 a.skid--cron:hover   { background-color: #fff; color: #B06A3B; text-decoration: none; }
 a.skid--cron:active  { text-decoration:none; color: #7195A3; }
 
-h1 { font-size: 2em; color: #B06A3B; }
-p  { font-size: 1.2em; color: #AB988; }
+h1.skid  { font-size: 2em; color: #B06A3B; font-family: helvetica,arial-new,verdana;}
+p.skid   { font-size: 0.8em; color: #AB988; font-family: helvetica,arial-new,verdana;}
 
 .skid--content { width: 960px; margin-left: auto; margin-right: auto;}
 
-.skid { font-family: monospace, "Lucida Console", Courier; font-size: 0.75em; background:#fff; border-collapse:collapse; text-align:left; margin:20px;}
+.skid { font-family: monospace, "Lucida Console", Courier; font-size: 0.75em; background:#fff; border-collapse:collapse; text-align:left; }
 .skid th {color: #7195A3; height: 30px; border-bottom: 2px solid #7195A3; padding:0px 0px; font-size: 1.0em;}
-.skid td{color:#74A6BD; height: 10px; padding: 0px 0px 0px 0px; border-bottom: 1px solid #D4E7ED; }
+.skid td {color:#74A6BD; height: 35px; padding: 0px 0px 0px 0px; border-bottom: 1px solid #D4E7ED; }
 .skid tbody tr:hover td{color:#EB8540;}
 .skid tr { line-height: 1px; }
 
 .skid--timeline { width: 100%; height: 400px; border: 2px solid;}
 
-.skid--table { width: 100%; margin-left: auto; margin-right: auto; }
+.skid--table { width: 100%; margin-left: auto; margin-right: auto; margin-bottom: 20px; margin-top: 25px; }
 .skid--cron { width: 250px; }
+
+.skid--track_color { min-width: 35px; text-align: center; }

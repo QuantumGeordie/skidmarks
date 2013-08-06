@@ -101,6 +101,7 @@
 <table class='skid skid--table'>
   <thead>
   	<tr>
+      <!-- <th scope='col' class='skid'></th> -->
       <th scope='col' class='skid'></th>
       <th scope='col' class='skid'>name</th>
       <th scope='col' class='skid'>cron</th>
@@ -112,9 +113,11 @@
   <tbody>
     <% jobs.each do |k, v| %>
       <tr>
-        <td><%= check_box_tag(v[:track], v[:track], true, :onclick=>"hideShowTrack(#{v[:track]});")%></td>
-        <td><p style="color:<%= v[:color] %>"><%= k %></p></td>
-        <td><div class='skid--cron'><a class='skid--cron' href="#" onclick="return alert(CronWTF.parse(' <%= "#{v[:cron].html_safe} #{v[:name].html_safe}".html_safe %> ' )[0])"><%= v[:cron] %></a></div></td>
+        <!-- <td><%= check_box_tag(v[:track], v[:track], true, :onclick=>"hideShowTrack(#{v[:track]});")%></td> -->
+        <td class='skid--track_color' style="color:<%= v[:color] %>">&#10022</td>
+        <td><%= k %></td>
+        <td><div class='skid--cron'><a class='skid--cron'><%= "#{v[:cron]}".html_safe %></a></div></td>
+        <!-- <td><div class='skid--cron'><a class='skid--cron' href="#" onclick="return alert(CronWTF.parse(' <%= "#{v[:cron].html_safe} #{v[:name].html_safe}".html_safe %> ' )[0])"><%= "#{v[:cron]}".html_safe %></a></div></td> -->
         <td><%= v[:events] %></td>
         <!-- can put the track number back for debugging purposes if you want -->
         <!-- <td><%= v[:track] %></td> -->
@@ -122,3 +125,4 @@
     <% end -%>
   </tbody>
 </table>
+<p class='skid'>more help with deciphering the cron format? see <a class='skid' href="http://cronwtf.github.io/">CronWTF!</a></p>

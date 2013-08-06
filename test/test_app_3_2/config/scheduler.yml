@@ -1,10 +1,10 @@
-scheduler_health_check:
-  worker_class: TempFileUtils
-  worker_method: create_or_touch
-  for_each_vhost: false
-  args:
-    - 'scheduler_health_check_file'
-  cron_schedule: "* * * * *"
+# scheduler_health_check:
+#   worker_class: TempFileUtils
+#   worker_method: create_or_touch
+#   for_each_vhost: false
+#   args:
+#     - 'scheduler_health_check_file'
+#   cron_schedule: "* * * * *"
 
 delete_old_tmp_files:
   worker_class: TempFileUtils
@@ -55,125 +55,125 @@ transaction_delete_old_authorizable_transactions:
   worker_method: run
   cron_schedule: "0 10 * * *"
 
-disbursement_state_machine__disburse:
-  worker_class: DisbursementStateMachine::DisburseAction
-  worker_method: run
-  cron_schedule: "50 15,17,19,21,23 * * *"
+# disbursement_state_machine__disburse:
+#   worker_class: DisbursementStateMachine::DisburseAction
+#   worker_method: run
+#   cron_schedule: "50 15,17,19,21,23 * * *"
 
-disbursement_state_machine__timeout_pending:
-  worker_class: DisbursementStateMachine::TimeoutPending
-  worker_method: run
-  cron_schedule: "0 0 * * *"
+# disbursement_state_machine__timeout_pending:
+#   worker_class: DisbursementStateMachine::TimeoutPending
+#   worker_method: run
+#   cron_schedule: "0 0 * * *"
 
-disburse_action:
-  worker_class: CreateDisbursements
-  worker_method: run
-  cron_schedule: "30 15,17,19,21,23 * * *"
+# disburse_action:
+#   worker_class: CreateDisbursements
+#   worker_method: run
+#   cron_schedule: "30 15,17,19,21,23 * * *"
 
-pnm_payment_state_machine__funded_action:
-  worker_class: PnmPaymentStateMachine::FundedAction
-  worker_method: run
-  cron_schedule: "0 15 * * *"
+# pnm_payment_state_machine__funded_action:
+#   worker_class: PnmPaymentStateMachine::FundedAction
+#   worker_method: run
+#   cron_schedule: "0 15 * * *"
 
-pnm_payment_state_machine__disbursement_complete:
-  worker_class: PnmPaymentStateMachine::DisbursementCompleteAction
-  worker_method: run
-  cron_schedule: "0 16,18,20,22,24 * * *"
+# pnm_payment_state_machine__disbursement_complete:
+#   worker_class: PnmPaymentStateMachine::DisbursementCompleteAction
+#   worker_method: run
+#   cron_schedule: "0 16,18,20,22,24 * * *"
 
-reverse_expired_authorizations:
-  worker_class: AuthorizationEvent
-  worker_method: reverse_expired_authorizations
-  cron_schedule: "*/30 * * * *"
+# reverse_expired_authorizations:
+#   worker_class: AuthorizationEvent
+#   worker_method: reverse_expired_authorizations
+#   cron_schedule: "*/30 * * * *"
 
-process_transaction_exception_detail_report:
-  worker_class: TransactionExceptionDetailReport
-  worker_method: process
-  cron_schedule: "0 15,17,19,21,23 * * *"
+# process_transaction_exception_detail_report:
+#   worker_class: TransactionExceptionDetailReport
+#   worker_method: process
+#   cron_schedule: "0 15,17,19,21,23 * * *"
 
-process_payment_batch_detail_report:
-  worker_class: PaymentBatchDetailReport
-  worker_method: process
-  cron_schedule: "0 15,17,19,21,23 * * *"
+# process_payment_batch_detail_report:
+#   worker_class: PaymentBatchDetailReport
+#   worker_method: process
+#   cron_schedule: "0 15,17,19,21,23 * * *"
 
-process_payment_events_report:
-  worker_class: PaymentEventsReport
-  worker_method: process
-  cron_schedule: "0 15,17,19,21,23 * * *"
+# process_payment_events_report:
+#   worker_class: PaymentEventsReport
+#   worker_method: process
+#   cron_schedule: "0 15,17,19,21,23 * * *"
 
-process_paynearme_recon_report:
-  worker_class: Paynearme::ReconciliationReport
-  worker_method: process
-  cron_schedule: "0 19,21,23,1,3 * * *"
+# process_paynearme_recon_report:
+#   worker_class: Paynearme::ReconciliationReport
+#   worker_method: process
+#   cron_schedule: "0 19,21,23,1,3 * * *"
 
-monitor__review_monitor:
-  worker_class: Reports::ReviewMonitor
-  worker_method: run
-  cron_schedule: "15 0 * * *"
+# monitor__review_monitor:
+#   worker_class: Reports::ReviewMonitor
+#   worker_method: run
+#   cron_schedule: "15 0 * * *"
 
-monitor__vas_review_needed_monitor:
-  worker_class: VasReviewNeededMonitor
-  worker_method: run
-  cron_schedule: "15 0 * * *"
+# monitor__vas_review_needed_monitor:
+#   worker_class: VasReviewNeededMonitor
+#   worker_method: run
+#   cron_schedule: "15 0 * * *"
 
-monitor__check_stalled_disbursements:
-  worker_class: Reports::DisbursementMonitor
-  worker_method: run_and_email_results
-  cron_schedule: "0 16 * * *"
+# monitor__check_stalled_disbursements:
+#   worker_class: Reports::DisbursementMonitor
+#   worker_method: run_and_email_results
+#   cron_schedule: "0 16 * * *"
 
-report__cc_refund_analysis_report__monthly:
-  worker_class: Reports::CCRefundAnalysisReport
-  worker_method: run
-  args:
-      - :monthly
-  cron_schedule: "0 0 3 * *"
+# report__cc_refund_analysis_report__monthly:
+#   worker_class: Reports::CCRefundAnalysisReport
+#   worker_method: run
+#   args:
+#       - :monthly
+#   cron_schedule: "0 0 3 * *"
 
-report__cc_refund_analysis_report__quarterly:
-  worker_class: Reports::CCRefundAnalysisReport
-  worker_method: run
-  args:
-      - :quarterly
-  cron_schedule: "0 0 3 0,3,6,9 *"
+# report__cc_refund_analysis_report__quarterly:
+#   worker_class: Reports::CCRefundAnalysisReport
+#   worker_method: run
+#   args:
+#       - :quarterly
+#   cron_schedule: "0 0 3 0,3,6,9 *"
 
-report__cc_usage_report__monthly:
-  worker_class: Reports::CCUsageReport
-  worker_method: run
-  args:
-      - :monthly
-  cron_schedule: "0 0 3 * *"
+# report__cc_usage_report__monthly:
+#   worker_class: Reports::CCUsageReport
+#   worker_method: run
+#   args:
+#       - :monthly
+#   cron_schedule: "0 0 3 * *"
 
-report__cc_usage_report__quarterly:
-  worker_class: Reports::CCUsageReport
-  worker_method: run
-  args:
-      - :quarterly
-  cron_schedule: "0 0 3 0,3,6,9 *"
+# report__cc_usage_report__quarterly:
+#   worker_class: Reports::CCUsageReport
+#   worker_method: run
+#   args:
+#       - :quarterly
+#   cron_schedule: "0 0 3 0,3,6,9 *"
 
-monitor__pnm_payments_reported_but_not_announced:
-  worker_class: Reports::PnmPaymentsReportedButNotAnnounced
-  worker_method: run
-  cron_schedule: "0 4 * * *"
+# monitor__pnm_payments_reported_but_not_announced:
+#   worker_class: Reports::PnmPaymentsReportedButNotAnnounced
+#   worker_method: run
+#   cron_schedule: "0 4 * * *"
 
-dashboards__transaction_stats:
-  worker_class: Dashboards
-  worker_method: transaction_stats
-  cron_schedule: "*/10 * * * *"
+# dashboards__transaction_stats:
+#   worker_class: Dashboards
+#   worker_method: transaction_stats
+#   cron_schedule: "*/10 * * * *"
 
-dashboards__disbursement_stats:
-  worker_class: Dashboards
-  worker_method: disbursement_stats
-  cron_schedule: "30 15,17,19,21,23 * * *"
+# dashboards__disbursement_stats:
+#   worker_class: Dashboards
+#   worker_method: disbursement_stats
+#   cron_schedule: "30 15,17,19,21,23 * * *"
 
-dashboards__avg_time_to_paid_past_week:
-  worker_class: Dashboards
-  worker_method: avg_time_to_paid_past_week
-  cron_schedule: "0 1 * * *"
+# dashboards__avg_time_to_paid_past_week:
+#   worker_class: Dashboards
+#   worker_method: avg_time_to_paid_past_week
+#   cron_schedule: "0 1 * * *"
 
-dashboards__avg_time_from_awaiting_refund_to_credit_settled_past_week:
-  worker_class: Dashboards
-  worker_method: avg_time_from_awaiting_refund_to_credit_settled_past_week
-  cron_schedule: "0 1 * * *"
+# dashboards__avg_time_from_awaiting_refund_to_credit_settled_past_week:
+#   worker_class: Dashboards
+#   worker_method: avg_time_from_awaiting_refund_to_credit_settled_past_week
+#   cron_schedule: "0 1 * * *"
 
-dashboards__avg_time_to_disburse_past_week:
-  worker_class: Dashboards
-  worker_method: avg_time_to_disburse_past_week
-  cron_schedule: "0 1 * * *"
+# dashboards__avg_time_to_disburse_past_week:
+#   worker_class: Dashboards
+#   worker_method: avg_time_to_disburse_past_week
+#   cron_schedule: "0 1 * * *"
