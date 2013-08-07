@@ -1,4 +1,6 @@
 module CronParser
+  require 'active_support/core_ext/numeric'
+
   class Crontab
     attr_reader :jobs
 

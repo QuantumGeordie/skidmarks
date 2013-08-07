@@ -2,6 +2,7 @@ PATH
   remote: ../..
   specs:
     skidmarks (0.0.1)
+      activesupport (>= 3.0.0)
 
 GEM
   remote: https://rubygems.org/
