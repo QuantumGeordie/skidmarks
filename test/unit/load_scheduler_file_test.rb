@@ -14,7 +14,7 @@ class TestLoadSchedulerFile < ActiveSupport::TestCase
     assert File.exist?(scheduler_file), "Expected scheduler_file [#{scheduler_file}] to exist."
 
     Skidmarks.scheduler_file_location = scheduler_file
-    crontab_data = Skidmarks.generate_crontab_data.split("\n")
+    crontab_data = Skidmarks.generate_crontab_data_from_file.split("\n")
 
     assert_equal 9, crontab_data.length, 'number of crontab entries in file'
   end
@@ -24,7 +24,7 @@ class TestLoadSchedulerFile < ActiveSupport::TestCase
     assert File.exist?(file_generated), 'file should have been created by helper method.'
 
     Skidmarks.scheduler_file_location = file_generated
-    crontab_data = Skidmarks.generate_crontab_data.split("\n")
+    crontab_data = Skidmarks.generate_crontab_data_from_file.split("\n")
 
     assert_equal 1, crontab_data.length, 'number of crontab entries in file'
   end
@@ -34,19 +34,12 @@ class TestLoadSchedulerFile < ActiveSupport::TestCase
     assert File.exist?(file_generated), 'file should have been created by helper method.'
 
     Skidmarks.scheduler_file_location = file_generated
-    crontab_data = Skidmarks.generate_crontab_data.split("\n")
+    crontab_data = Skidmarks.generate_crontab_data_from_file.split("\n")
 
     assert_equal 12, crontab_data.length, 'number of crontab entries in file'
   end
 
   private
-
-  def clear_test_files
-    if File.exist? FileGenerators::TEMP_FILE_PATH
-      Dir[File.join(FileGenerators::TEMP_FILE_PATH, "*.yml")].each { |f| FileUtils.rm_rf f }
-      Dir.delete(FileGenerators::TEMP_FILE_PATH)
-    end
-  end
 
 
 end

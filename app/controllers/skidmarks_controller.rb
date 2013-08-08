@@ -9,6 +9,7 @@ class SkidmarksController < ApplicationController
     @start_time = "#{Time.now.strftime('%F')} 00:00"
     @end_time   = "#{Time.now.strftime('%F')} 23:59"
 
+    Skidmarks.generate_crontab_data_from_file
     @jobs = Skidmarks.jobs(@start_time, @end_time)
   end
 

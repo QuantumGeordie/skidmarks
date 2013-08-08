@@ -28,6 +28,13 @@ module FileGenerators
     filename
   end
 
+  def clear_test_files
+    if File.exist? FileGenerators::TEMP_FILE_PATH
+      Dir[File.join(FileGenerators::TEMP_FILE_PATH, "*.yml")].each { |f| FileUtils.rm_rf f }
+      Dir.delete(FileGenerators::TEMP_FILE_PATH)
+    end
+  end
+
   private
 
   def make_single_job_yaml(name, cron_schedule, other = {})

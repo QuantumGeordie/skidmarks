@@ -1,5 +1,6 @@
 module CronParser
   require 'active_support/core_ext/numeric'
+  require 'json'
 
   class Crontab
     attr_reader :jobs
