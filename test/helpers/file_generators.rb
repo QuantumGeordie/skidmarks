@@ -4,16 +4,15 @@ module FileGenerators
   EXAMPLE_CRON = ["* * * * *", "0 0 * * *", "0 1 * * *", "*/10 * * * *", "5,15,25,35,45,55 * * * *", "* */2 * * *", "45 15,17,19,21,23 * * *", "0 16,18,20,22,24 * * *",  "0 10 * * *",  "0 * 0 *  *"]
 
   def make_scheduler_file_1_job(job_name, job_cron, extra_values = {})
-    FileUtils.mkdir_p TEMP_FILE_PATH
-    filename = File.join(TEMP_FILE_PATH, 'single_job.yml')
+    filename = prep_temp_file('single_job.yml')
+
     file_contents = make_single_job_yaml(job_name, job_cron, extra_values)
     File.open(filename, 'w') { |file| file.write(file_contents) }
     filename
   end
 
   def make_scheduler_file_n_jobs(n)
-    FileUtils.mkdir_p TEMP_FILE_PATH
-    filename = File.join(TEMP_FILE_PATH, 'multiple_jobs.yml')
+    filename = prep_temp_file('multiple_jobs.yml')
 
     file_contents = ''
     (1..n).each do |i|
@@ -22,6 +21,22 @@ module FileGenerators
       other_params = {}
       rand(5).times { other_params[rand(36**10).to_s(36)] = rand(36**22).to_s(36) }
       file_contents += make_single_job_yaml(name, cron, other_params) + "\n"
+    end
+
+    File.open(filename, 'w') { |file| file.write(file_contents) }
+    filename
+  end
+
+  def make_scheduler_file_multiple_jobs(job_names, job_crons)
+    raise 'Number of Job Names must equal number of Job Crons' unless job_names.length == job_crons.length
+
+    filename = prep_temp_file('multiple_jobs.yml')
+
+    file_contents = ''
+    i = 0
+    job_names.each do |name|
+      file_contents += make_single_job_yaml(name, job_crons[i]) + "\n"
+      i += 1
     end
 
     File.open(filename, 'w') { |file| file.write(file_contents) }
@@ -37,15 +52,12 @@ module FileGenerators
 
   private
 
-  def make_single_job_yaml(name, cron_schedule, other = {})
-    ## example entry
-    #name:
-    #    cron_schedule: "0 1 * * *"
-    #    worker_class: Class1
-    #    worker_method: method_two
-    #    some_other_param: true
-    #    one_more_param: 240
+  def prep_temp_file(filename)
+    FileUtils.mkdir_p TEMP_FILE_PATH
+    File.join(TEMP_FILE_PATH, filename)
+  end
 
+  def make_single_job_yaml(name, cron_schedule, other = {})
     job_hash = {name => {'cron_schedule' => cron_schedule}}
     job_hash[name].merge!(other)
 

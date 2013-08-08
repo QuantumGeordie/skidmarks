@@ -53,7 +53,7 @@ module CronParser
 
     def get_lines
       @input.each_line do |x|
-        yield x.chop if x.strip.match /^[\*0-9]/
+         yield x.chomp if x.strip.match /^[\*0-9]/
       end
     end
 
