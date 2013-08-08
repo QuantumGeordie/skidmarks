@@ -49,7 +49,10 @@ module FileGenerators
     job_hash = {name => {'cron_schedule' => cron_schedule}}
     job_hash[name].merge!(other)
 
-    job_hash.to_yaml.gsub("--- \n", '')
+    job_yaml = job_hash.to_yaml
+    job_yaml = job_yaml.gsub("--- \n", '')   # ruby 1.8.7 adds this
+    job_yaml = job_yaml.gsub("---\n", '')    # ruby 1.9.3 adds this
+    job_yaml
   end
 
 
