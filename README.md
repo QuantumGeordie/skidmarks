@@ -26,10 +26,6 @@ with gem in project, initialize the scheduler file location like:
 
     Skidmarks.scheduler_file_location = '/path/to/your/file.yml'
 
-or with a dynamic configuration, e.g.:
-
-    Skidmarks.scheduler_file_location = Rails.root.join('config', 'scheduler.yml')
-
 then visit `/skidmarks` in your application.
 
 ## Contributing
